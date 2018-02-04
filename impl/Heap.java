@@ -83,8 +83,50 @@ public abstract class Heap<E> {
      * POSTCONDITION: The subtree rooted at i is a heap.
      */
     protected void sinkKeyAt(int i) {
-        assert isHeapBut(i);
-         throw new UnsupportedOperationException();
+		assert isHeapBut(i);
+		
+		//No more children exists in the current sub-heap.
+		if(this.left(i) >= this.heapSize && this.right(i) >= this.heapSize)
+			return;
+		
+		int compareLeft = 0;
+		int compareRight = 0;
+		int compareChildren = 0;
+		int swapIndex = -1;
+		
+		//If a left element does NOT exist in the heap (base case 1)
+		if(this.left(i) >= this.heapSize) {
+			compareLeft = 1;
+			compareChildren = -1;
+		}
+		
+		//If a right element does NOT exist in the heap.
+		else if(this.right(i) >= this.heapSize) {
+			compareRight = 1;
+			compareChildren = 1;
+		}
+		
+		//There are two children in the current sub-heap
+		else {
+			 compareLeft = compy.compare(internal[i],internal[this.left(i)]);
+			 compareRight = compy.compare(internal[i],internal[this.right(i)]);
+			 compareChildren = compy.compare(internal[this.left(i)], internal[this.right(i)]);
+		}
+
+		//If the key is at the right position (base case 2)
+		if(compareRight >= 0 && compareLeft >= 0)
+			return;
+		
+		//Find the greater children in which to pursue.
+		else {
+			if(compareChildren < 0)
+				swapIndex = this.right(i);
+			else
+				swapIndex = this.left(i);
+		}
+
+		this.swap(i, swapIndex);
+		sinkKeyAt(swapIndex);
      }
     
     /** 
@@ -98,10 +140,10 @@ public abstract class Heap<E> {
      * 
      */
     protected void raiseKeyAt(int i) {
-        assert i == 0 || isHeapBut(parent(i));
-        
-         throw new UnsupportedOperationException();
-        assert i != 0 || isHeap();
+		assert i == 0 || isHeapBut(parent(i));
+
+		throw new UnsupportedOperationException();
+		// assert i != 0 || isHeap();
     }
     /**
      * Display the state of the heap as an array. The entire 
