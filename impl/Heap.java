@@ -83,26 +83,28 @@ public abstract class Heap<E> {
      * POSTCONDITION: The subtree rooted at i is a heap.
      */
     protected void sinkKeyAt(int i) {
-		assert isHeapBut(i);
-		
-		//No more children exists in the current sub-heap.
+    	//Check index
+    	if(i >= this.heapSize || i < 0)
+			return;
+
+		//No more children exist in the current sub-heap.
 		if(this.left(i) >= this.heapSize && this.right(i) >= this.heapSize)
 			return;
-		
-		int compareLeft = 0;
-		int compareRight = 0;
-		int compareChildren = 0;
+
+		int compareLeft = 0, compareRight = 0, compareChildren = 0;
 		int swapIndex = -1;
 		
 		//If a left element does NOT exist in the heap (base case 1)
 		if(this.left(i) >= this.heapSize) {
 			compareLeft = 1;
+			compareRight = compy.compare(internal[i],internal[this.right(i)]);
 			compareChildren = -1;
 		}
 		
 		//If a right element does NOT exist in the heap.
 		else if(this.right(i) >= this.heapSize) {
 			compareRight = 1;
+			compareLeft = compy.compare(internal[i],internal[this.left(i)]);
 			compareChildren = 1;
 		}
 		
