@@ -157,6 +157,13 @@ public class HeapPriorityQueue<E> extends Heap<E> implements PriorityQueue<E> {
      */
     public E extractMax() {
     	E max = max();
+    	
+    	//Precondition check
+    	if(heapSize < 1) {
+    		internal[0] = null;
+    		return max;
+    	}
+    	
     	//Swap max with the last element in the heap.
     	swap(0, heapSize-1);
     	heapSize--;
