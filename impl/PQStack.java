@@ -29,7 +29,10 @@ public class PQStack<E> implements Stack<E> {
      */
     private Map<E, Integer> arrivalTimes;
     
-
+    /**
+     * int to hold the time stamp of each new element being added
+     */
+    private int timeStamp = 0;
  
     /**
      * Constructor.
@@ -37,11 +40,32 @@ public class PQStack<E> implements Stack<E> {
      */
     public PQStack(int maxSize) {
         arrivalTimes = new ListMap<E, Integer>();
-        //finish constructor here
+        
+        Comparator<E> compy = new Comparator<E>() {
+
+			@Override
+			public int compare(E o1, E o2) {
+				//Reversed for stack property
+				return Integer.compare(arrivalTimes.get(o1),arrivalTimes.get(o2));
+			}
+        	
+        };
+        
+        pq = new HeapPriorityQueue<E>(maxSize, compy);
     }
 
     /**
-     * Is this stack empty? It is if the pq is empty.
+     * Is this stack empty? I        
+        Comparator<E> compy = new Comparator<E>() {
+
+			@Override
+			public int compare(E o1, E o2) {
+				return Integer.compare(arrivalTimes.get(o2),arrivalTimes.get(o1));
+			}
+        	
+        };
+        
+        pq = new HeapPriorityQueue<E>(maxSize, compy);t is if the pq is empty.
      * @return True if this is empty, false otherwise.
      */
     public boolean isEmpty() { return pq.isEmpty(); }
@@ -57,7 +81,10 @@ public class PQStack<E> implements Stack<E> {
      * @return The top element.
      */
     public E top() { 
-         throw new UnsupportedOperationException();
+         if(isEmpty())
+        	 throw new NoSuchElementException();
+         
+         return pq.max();
     }
 
     /**
@@ -65,7 +92,12 @@ public class PQStack<E> implements Stack<E> {
      * @return The top element.
      */
     public E pop() {
-         throw new UnsupportedOperationException();
+    	if(isEmpty())
+    		throw new NoSuchElementException();
+    	
+    	E rm = pq.extractMax();
+    	arrivalTimes.remove(rm);
+    	return rm;
     }
 
     /**
@@ -73,7 +105,9 @@ public class PQStack<E> implements Stack<E> {
      * @param x The element to add.
      */
     public void push(E x) {
-         throw new UnsupportedOperationException();
+    	arrivalTimes.put(x, timeStamp);
+    	pq.insert(x);
+    	timeStamp++;
     }
 
     public String toString() { return pq.toString(); }
