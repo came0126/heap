@@ -142,10 +142,15 @@ public abstract class Heap<E> {
      * 
      */
     protected void raiseKeyAt(int i) {
-		assert i == 0 || isHeapBut(parent(i));
-
-		throw new UnsupportedOperationException();
-		// assert i != 0 || isHeap();
+    	if(i >= heapSize || i < 0)
+    		return;
+    	
+    	//Compare the element at i with the parent of i.
+		if(compy.compare(internal[i], internal[this.parent(i)]) > 0) {
+			this.swap(i, this.parent(i));
+			raiseKeyAt(this.parent(i));
+		}
+				
     }
     /**
      * Display the state of the heap as an array. The entire 
