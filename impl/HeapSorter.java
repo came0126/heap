@@ -26,6 +26,7 @@ public class HeapSorter extends Heap<Integer> {
 		internal = new Integer[array.length];
 		for (int i = 0; i < array.length; i++)
 			internal[i] = array[i];
+			
 		heapSize = array.length;
 		
 		compy = new Comparator<Integer>() {
@@ -35,11 +36,10 @@ public class HeapSorter extends Heap<Integer> {
 			}
 		};
 
-		for(int i = 0; i < heapSize; i++) {
-			
+		//Build the heap
+		for(int i = heapSize-1; i >= 0; i--) {
 			super.sinkKeyAt(i);
 		}
-
     }
     
     /**
@@ -47,11 +47,16 @@ public class HeapSorter extends Heap<Integer> {
      * @param array The array to sort.
      */
     public static void sort(int[] array) {
-
-		HeapSorter heap = new HeapSorter(array);
-
-		// insert code for completing the heap sort algorithm,
-		// with post condition that heap.internal is sorted
+    	HeapSorter heap = new HeapSorter(array);
+ 
+		while(heap.heapSize > 0) {
+			//Swap the first element with the last element in the internal array
+			heap.swap(0, heap.heapSize-1);
+			//Move the heap size down
+			heap.heapSize--;
+			//Sink the first element
+			heap.sinkKeyAt(0);
+		}
 
 		// copy elements from internal (now sorted) back to array
 		for (int i = 0; i < array.length; i++)
