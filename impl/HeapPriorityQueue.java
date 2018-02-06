@@ -160,8 +160,7 @@ public class HeapPriorityQueue<E> extends Heap<E> implements PriorityQueue<E> {
     	
     	//Precondition check
     	if(heapSize < 1) {
-    		internal[0] = null;
-    		return max;
+    		return null;
     	}
     	
     	//Swap max with the last element in the heap.
