@@ -132,8 +132,14 @@ public class HeapPriorityQueue<E> extends Heap<E> implements PriorityQueue<E> {
     public void insert(E x) {
 		if (isFull())
 			throw new FullContainerException();
-		throw new UnsupportedOperationException();
-		// assert isHeap();
+		
+		//Add the new element
+		internal[heapSize] = x;
+		heapSize++;
+		
+		//Fix up heap violations
+		raiseKeyAt(heapSize-1);
+		
     }
 
     /**
@@ -150,9 +156,18 @@ public class HeapPriorityQueue<E> extends Heap<E> implements PriorityQueue<E> {
      * @return The maximum element.
      */
     public E extractMax() {
-
-
-         throw new UnsupportedOperationException();
+    	E max = max();
+    	//Swap max with the last element in the heap.
+    	swap(0, heapSize-1);
+    	heapSize--;
+    	
+    	//Erase the max value
+    	internal[heapSize] = null;
+    	
+    	//Sink the root down the heap
+    	sinkKeyAt(0);
+    	
+    	return max;
     }
 
     /**
