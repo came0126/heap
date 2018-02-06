@@ -28,8 +28,11 @@ public class PQQueue<E> implements Queue<E> {
      * values in the priority queue.
      */
     private Map<E, Integer> arrivalTimes;
-
     
+    /**
+     * int to hold the time stamp of each new element being added
+     */
+    private int timeStamp = 0;
 
     /**
      * Constructor.
@@ -37,7 +40,17 @@ public class PQQueue<E> implements Queue<E> {
      */
     public PQQueue(int maxSize) {
         arrivalTimes = new ListMap<E, Integer>();
-        // finish this constructor
+        
+        Comparator<E> compy = new Comparator<E>() {
+
+			@Override
+			public int compare(E o1, E o2) {
+				return Integer.compare(arrivalTimes.get(o2),arrivalTimes.get(o1));
+			}
+        	
+        };
+        
+        pq = new HeapPriorityQueue<E>(maxSize, compy);
     }
 
     /**
@@ -57,7 +70,10 @@ public class PQQueue<E> implements Queue<E> {
      * @return The front element.
      */
     public E front() { 
-         throw new UnsupportedOperationException();
+    	if(isEmpty())
+    		throw new NoSuchElementException();
+    	
+    	return pq.max();
     }
 
     /**
@@ -65,7 +81,12 @@ public class PQQueue<E> implements Queue<E> {
      * @return The front element.
      */
     public E remove() {
-         throw new UnsupportedOperationException();
+    	if(isEmpty())
+    		throw new NoSuchElementException();
+    	
+    	E rm = pq.extractMax();
+    	arrivalTimes.remove(rm);
+    	return rm;
     }
 
     /**
@@ -73,7 +94,9 @@ public class PQQueue<E> implements Queue<E> {
      * @param x The element to add.
      */
     public void enqueue(E x) {
-         throw new UnsupportedOperationException();
+    	arrivalTimes.put(x, timeStamp);
+    	pq.insert(x);
+    	timeStamp++;
     }
 
 }
