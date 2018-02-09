@@ -9,4 +9,4 @@ Project 3 from Wheaton College's CSCI Data Structures and Algorithms course.
 - PQStack uses a Priority Queue as the unlying structure with the functionality of a stack.
 
 
-*Note: Project tested emparically using JUnit test cases written by Dr. Thomas VanDrunen.*
+*Note: Basic project stub, outline, and test cases are written by Dr. Thomas VanDrunen.*
